@@ -24,7 +24,38 @@ RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 
         python3-sawtooth-signing \
         python3-sawtooth-rest-api
 
-RUN pip3 install \
+RUN apt-get update
+RUN apt install -y software-properties-common \
+    wget \
+    zlib1g-dev \
+    zlibc \
+    build-essential \
+    checkinstall \
+    libffi-dev
+
+# need ssl
+RUN wget https://www.openssl.org/source/openssl-1.1.1s.tar.gz
+RUN tar -xf openssl-1.1.1s.tar.gz
+WORKDIR openssl-1.1.1s
+RUN ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+RUN make && make test && make install
+RUN echo /usr/local/ssl/lib >> /etc/ld.so.conf.d/openssl-1.1.1s.conf
+RUN ldconfig -v
+
+
+
+# neeed newer version of python
+RUN wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tar.xz
+RUN tar -xf Python-3.7.17.tar.xz
+WORKDIR Python-3.7.17
+
+RUN ./configure --enable-optimizations
+RUN make altinstall
+
+RUN pip3.7 install --upgrade pip
+# RUN apt-get install -y build-essential cargo
+
+RUN pip3.7 install \
     bcrypt \
     itsdangerous \
     rethinkdb \
