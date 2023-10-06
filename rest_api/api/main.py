@@ -20,6 +20,8 @@ import os
 from signal import signal, SIGINT
 import sys
 
+
+print(sys.version)
 import rethinkdb as r
 
 from sanic import Sanic

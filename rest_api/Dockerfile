@@ -56,6 +56,8 @@ RUN pip3.7 install \
     sanic \
     pycrypto
 
+RUN pip3.7 install rethinkdb
+
 WORKDIR /project/sawtooth-marketplace
 
 ENV PATH $PATH:/project/sawtooth-marketplace/bin
