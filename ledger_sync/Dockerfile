@@ -22,7 +22,7 @@ RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 
         python3-pip \
         python3-sawtooth-sdk
 
-RUN pip3 install rethinkdb
+RUN pip3 install rethinkdb 
 
 WORKDIR /project/sawtooth-marketplace
 

@@ -67,7 +67,10 @@ RUN pip3.7 install \
     pycrypto \
     rethinkdb \
     sanic \
-    itsdangerous
+    sawtooth-sdk \
+    sawtooth-signing \
+    itsdangerous 
+
 
 WORKDIR /project/sawtooth-marketplace
 

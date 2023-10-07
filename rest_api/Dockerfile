@@ -54,6 +54,8 @@ RUN pip3.7 install \
     itsdangerous \
     rethinkdb \
     sanic \
+    sawtooth-sdk \
+    sawtooth-signing \
     pycrypto
 
 RUN pip3.7 install rethinkdb
