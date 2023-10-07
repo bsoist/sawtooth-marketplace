@@ -42,7 +42,7 @@ def load(data_path):
         mkt_rel = '../../../'
         mkt_abs = path.realpath(path.join(path.dirname(__file__), mkt_rel))
         data_abs = path.join(mkt_abs, data_path)
-    return yaml.load(open(data_abs, 'r'))
+    return yaml.safe_load(open(data_abs, 'r'))
 
 
 def swap_refs(resource, data):
