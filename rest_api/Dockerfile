@@ -15,56 +15,26 @@
 
 FROM ubuntu:16.04
 
+RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD" && \
+    echo 'deb http://repo.sawtooth.me/ubuntu/1.0/stable xenial universe' >> /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
+        python3-pip \
+        python3-sawtooth-sdk \
+        python3-sawtooth-signing \
+        python3-sawtooth-rest-api
 
-# RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD" && \
-#     echo 'deb http://repo.sawtooth.me/ubuntu/1.0/stable xenial universe' >> /etc/apt/sources.list && \
-#     apt-get update && \
-#     apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
-#         python3-pip \
-#         software-properties-common \
-#         wget \
-#         zlib1g-dev \
-#         zlibc \
-#         build-essential \
-#         checkinstall \
-#         libffi-dev
+RUN pip3 install \
+    bcrypt \
+    itsdangerous \
+    rethinkdb \
+    sanic \
+    pycrypto
 
-# # neeed newer version of python
-# RUN wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tar.xz
-# RUN tar -xf Python-3.7.17.tar.xz
-# WORKDIR Python-3.7.17
-# RUN ./configure --enable-optimizations
-# RUN make altinstall
+WORKDIR /project/sawtooth-marketplace
 
-# # need ssl
-# RUN wget https://www.openssl.org/source/openssl-1.1.1s.tar.gz
-# RUN tar -xf openssl-1.1.1s.tar.gz
-# WORKDIR openssl-1.1.1s
-# RUN ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
-# RUN make && make test && make install
-# RUN echo /usr/local/ssl/lib >> /etc/ld.so.conf.d/openssl-1.1.1s.conf
-# RUN ldconfig -v
+ENV PATH $PATH:/project/sawtooth-marketplace/bin
 
-# RUN apt-get update 
-# RUN apt-get install -y --allow-unauthenticated sawtooth python3-sawtooth-*
+EXPOSE 8000/tcp
 
-
-# RUN pip3.7 install --upgrade pip
-
-# RUN pip3.7 install \
-#     bcrypt \
-#     itsdangerous \
-#     rethinkdb \
-#     sanic \
-#     pycrypto
-
-
-# RUN pip3.7 install rethinkdb
-
-# WORKDIR /project/sawtooth-marketplace
-
-# ENV PATH $PATH:/project/sawtooth-marketplace/bin
-
-# EXPOSE 8000/tcp
-
-# CMD ["marketplace-rest-api"]
+CMD ["marketplace-rest-api"]
