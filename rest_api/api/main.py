@@ -22,6 +22,7 @@ import sys
 
 
 print(sys.version)
+import pip
 import rethinkdb as r
 
 from sanic import Sanic

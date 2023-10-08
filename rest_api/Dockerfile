@@ -15,22 +15,6 @@
 
 FROM ubuntu:16.04
 
-RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD" && \
-    echo 'deb http://repo.sawtooth.me/ubuntu/1.0/stable xenial universe' >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
-        python3-pip \
-        python3-sawtooth-sdk \
-        python3-sawtooth-signing \
-        python3-sawtooth-rest-api \
-        software-properties-common \
-        wget \
-        zlib1g-dev \
-        zlibc \
-        build-essential \
-        checkinstall \
-        libffi-dev
-
 # need ssl
 RUN wget https://www.openssl.org/source/openssl-1.1.1s.tar.gz
 RUN tar -xf openssl-1.1.1s.tar.gz
@@ -47,6 +31,24 @@ WORKDIR Python-3.7.17
 RUN ./configure --enable-optimizations
 RUN make altinstall
 
+
+RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD" && \
+    echo 'deb http://repo.sawtooth.me/ubuntu/1.0/stable xenial universe' >> /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
+        python3-pip \
+        python3-sawtooth-sdk \
+        python3-sawtooth-signing \
+        python3-sawtooth-rest-api \
+        software-properties-common \
+        wget \
+        zlib1g-dev \
+        zlibc \
+        build-essential \
+        checkinstall \
+        libffi-dev
+
+
 RUN pip3.7 install --upgrade pip
 
 RUN pip3.7 install \
@@ -54,9 +56,8 @@ RUN pip3.7 install \
     itsdangerous \
     rethinkdb \
     sanic \
-    sawtooth-sdk \
-    sawtooth-signing \
     pycrypto
+
 
 RUN pip3.7 install rethinkdb
 
