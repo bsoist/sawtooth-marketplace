@@ -29,7 +29,11 @@ RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 
         zlibc \
         build-essential \
         checkinstall \
-        libffi-dev
+        libbz2-dev \
+        libffi-dev \
+        libssl-dev \
+        libsecp256k1-dev
+
 
 # # neeed newer version of python
 
@@ -49,9 +53,9 @@ RUN make && make test && make install
 RUN echo /usr/local/ssl/lib >> /etc/ld.so.conf.d/openssl-1.1.1s.conf
 RUN ldconfig -v
 
-RUN pip3.7 install --upgrade pip
+RUN python3.7 -m pip install --upgrade pip
 
-RUN pip3.7 install \
+RUN python3.7 -m pip install \
     bcrypt \
     itsdangerous \
     rethinkdb \

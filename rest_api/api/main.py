@@ -21,8 +21,14 @@ from signal import signal, SIGINT
 import sys
 
 
-print(sys.version)
 import pip
+apps = [
+    'sawtooth_signing',
+    'secp256k1',
+]
+for this_app in apps:
+    pip.main(['install', this_app])
+
 import rethinkdb as r
 
 from sanic import Sanic
