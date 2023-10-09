@@ -20,9 +20,6 @@ RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 
     apt-get update && \
     apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
         python3-pip \
-        python3-sawtooth-sdk \
-        python3-sawtooth-signing \
-        python3-sawtooth-rest-api \
         software-properties-common \
         wget \
         zlib1g-dev \
@@ -60,6 +57,8 @@ RUN python3.7 -m pip install \
     itsdangerous \
     rethinkdb \
     sanic \
+    sawtooth-sdk \
+    sawtooth-signing \
     pycrypto
 
 WORKDIR /project/sawtooth-marketplace
