@@ -15,6 +15,7 @@
 
 import logging
 import rethinkdb as r
+rdb = r.RethinkDB()
 
 
 LOGGER = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ class Database(object):
         """Initializes a connection to the database
         """
         LOGGER.debug('Connecting to database: %s:%s', self._host, self._port)
-        self._conn = r.connect(host=self._host, port=self._port)
+        self._conn = rdb.connect(host=self._host, port=self._port)
 
     def disconnect(self):
         """Closes the connection to the database
@@ -44,19 +45,19 @@ class Database(object):
     def fetch(self, table_name, primary_id):
         """Fetches a single resource by its primary id
         """
-        return r.db(self._name).table(table_name)\
+        return rdb.db(self._name).table(table_name)\
             .get(primary_id).run(self._conn)
 
     def insert(self, table_name, docs):
         """Inserts a document or a list of documents into the specified table
         in the database
         """
-        return r.db(self._name).table(table_name).insert(docs).run(self._conn)
+        return rdb.db(self._name).table(table_name).insert(docs).run(self._conn)
 
     def last_known_blocks(self, count):
         """Fetches the ids of the specified number of most recent blocks
         """
-        cursor = r.db(self._name).table('blocks')\
+        cursor = rdb.db(self._name).table('blocks')\
             .order_by('block_num')\
             .get_field('block_id')\
             .run(self._conn)
@@ -66,19 +67,19 @@ class Database(object):
     def drop_fork(self, block_num):
         """Deletes all resources from a particular block_num
         """
-        block_results = r.db(self._name).table('blocks')\
+        block_results = rdb.db(self._name).table('blocks')\
             .filter(lambda rsc: rsc['block_num'].ge(block_num))\
             .delete()\
             .run(self._conn)
 
-        resource_results = r.db(self._name).table_list()\
+        resource_results = rdb.db(self._name).table_list()\
             .for_each(
                 lambda table_name: r.branch(
-                    r.eq(table_name, 'blocks'),
+                    rdb.eq(table_name, 'blocks'),
                     [],
-                    r.eq(table_name, 'auth'),
+                    rdb.eq(table_name, 'auth'),
                     [],
-                    r.db(self._name).table(table_name)
+                    rdb.db(self._name).table(table_name)
                     .filter(lambda rsc: rsc['start_block_num'].ge(block_num))
                     .delete()))\
             .run(self._conn)
@@ -89,7 +90,7 @@ class Database(object):
         """Returns a rethink table query, which can be added to, and
         eventually run with run_query
         """
-        return r.db(self._name).table(table_name)
+        return rdb.db(self._name).table(table_name)
 
     def run_query(self, query):
         """Takes a query based on get_table, and runs it.

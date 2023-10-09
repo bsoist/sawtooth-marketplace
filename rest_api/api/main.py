@@ -20,14 +20,17 @@ import os
 from signal import signal, SIGINT
 import sys
 
-
+'''
 import pip
 apps = [
     'sawtooth_signing',
     'secp256k1',
+    'sanic',
 ]
 for this_app in apps:
     pip.main(['install', this_app])
+'''
+import secp256k1
 
 import rethinkdb as r
 
