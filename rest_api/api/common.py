@@ -15,7 +15,8 @@
 
 from Crypto.Cipher import AES
 
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import Serializer
 
 from sawtooth_signing import CryptoFactory
 from sawtooth_signing.secp256k1 import Secp256k1PrivateKey

@@ -21,6 +21,8 @@ RUN echo "deb apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 
     apt-get install -y --allow-unauthenticated -q python3-grpcio-tools=1.1.3-1 \
         python3-pip \
         software-properties-common \
+        python3-sawtooth-rest-api \
+        python3-sawtooth-cli \
         wget \
         zlib1g-dev \
         zlibc \
@@ -60,6 +62,10 @@ RUN python3.7 -m pip install \
     sawtooth-sdk \
     sawtooth-signing \
     pycrypto
+
+RUN pip3.7 install protobuf==3.20.*
+
+RUN ln -s /usr/lib/python3/dist-packages/sawtooth_rest_api /usr/local/lib/python3.7/site-packages/sawtooth_rest_api
 
 WORKDIR /project/sawtooth-marketplace
 

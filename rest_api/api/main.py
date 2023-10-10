@@ -33,6 +33,7 @@ for this_app in apps:
 import secp256k1
 
 import rethinkdb as r
+rdb = r.RethinkDB()
 
 from sanic import Sanic
 
@@ -72,8 +73,8 @@ DEFAULT_CONFIG = {
 
 async def open_connections(app):
     LOGGER.warning('opening database connection')
-    r.set_loop_type('asyncio')
-    app.config.DB_CONN = await r.connect(
+    rdb.set_loop_type('asyncio')
+    app.config.DB_CONN = await rdb.connect(
         host=app.config.DB_HOST,
         port=app.config.DB_PORT,
         db=app.config.DB_NAME)
@@ -125,7 +126,7 @@ def load_config(app):  # pylint: disable=too-many-branches
         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
         'config.py')
     try:
-        app.config.from_pyfile(config_file_path)
+        app.config.update_config(config_file_path)
     except FileNotFoundError:
         LOGGER.warning("No config file provided")
 
@@ -180,7 +181,7 @@ def load_config(app):  # pylint: disable=too-many-branches
 
 
 def main():
-    app = Sanic(__name__)
+    app = Sanic('api_main')
     app.blueprint(ACCOUNTS_BP)
     app.blueprint(ASSETS_BP)
     app.blueprint(AUTH_BP)

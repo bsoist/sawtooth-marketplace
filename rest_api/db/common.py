@@ -14,12 +14,13 @@
 # ------------------------------------------------------------------------------
 
 import rethinkdb as r
-from rethinkdb import ReqlNonExistenceError
+from rethinkdb.errors import ReqlNonExistenceError
 
 from api.errors import ApiInternalError
 
 
-VAL_TYPE_INT = r.expr([
+rdb = r.RethinkDB()
+VAL_TYPE_INT = rdb.expr([
     "REQUIRE_SOURCE_QUANTITIES", "REQUIRE_TARGET_QUANTITIES"
 ])
 

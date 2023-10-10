@@ -13,6 +13,9 @@
 # limitations under the License.
 # -----------------------------------------------------------------------------
 
+import pip
+pip.main(['install', 'requests'])
+
 import re
 import logging
 import requests
