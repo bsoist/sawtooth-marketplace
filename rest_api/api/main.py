@@ -20,16 +20,6 @@ import os
 from signal import signal, SIGINT
 import sys
 
-'''
-import pip
-apps = [
-    'sawtooth_signing',
-    'secp256k1',
-    'sanic',
-]
-for this_app in apps:
-    pip.main(['install', this_app])
-'''
 import secp256k1
 
 import rethinkdb as r
@@ -126,7 +116,7 @@ def load_config(app):  # pylint: disable=too-many-branches
         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
         'config.py')
     try:
-        app.config.update_config(config_file_path)
+        app.config.from_pyfile(config_file_path)
     except FileNotFoundError:
         LOGGER.warning("No config file provided")
 
@@ -198,8 +188,15 @@ def main():
     asyncio.ensure_future(server)
     asyncio.ensure_future(open_connections(app))
     signal(SIGINT, lambda s, f: loop.close())
+    '''
     try:
         loop.run_forever()
     except KeyboardInterrupt:
         close_connections(app)
         loop.stop()
+    '''
+    print('loop')
+    print(loop)
+    loop.run_forever()
+    print('loop')
+    print(loop)

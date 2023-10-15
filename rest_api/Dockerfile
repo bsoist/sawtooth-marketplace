@@ -58,12 +58,13 @@ RUN python3.7 -m pip install \
     bcrypt \
     itsdangerous \
     rethinkdb \
-    sanic \
+    sanic==0.7.0 \
     sawtooth-sdk \
     sawtooth-signing \
     pycrypto
 
 RUN pip3.7 install protobuf==3.20.*
+
 
 RUN ln -s /usr/lib/python3/dist-packages/sawtooth_rest_api /usr/local/lib/python3.7/site-packages/sawtooth_rest_api
 

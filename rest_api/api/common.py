@@ -65,7 +65,7 @@ async def get_signer(request):
 def generate_auth_token(secret_key, email, public_key):
     serializer = Serializer(secret_key)
     token = serializer.dumps({'email': email, 'public_key': public_key})
-    return token.decode('ascii')
+    return token
 
 
 def deserialize_auth_token(secret_key, token):

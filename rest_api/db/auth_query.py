@@ -15,7 +15,8 @@
 
 import logging
 
-import rethinkdb as r
+import rethinkdb as rt
+r = rt.RethinkDB()
 
 from api.errors import ApiBadRequest
 

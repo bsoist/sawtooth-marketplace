@@ -13,14 +13,15 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 
-import rethinkdb as r
+import rethinkdb as rt
+r = rt.RethinkDB()
+
 from rethinkdb.errors import ReqlNonExistenceError
 
 from api.errors import ApiInternalError
 
 
-rdb = r.RethinkDB()
-VAL_TYPE_INT = rdb.expr([
+VAL_TYPE_INT = r.expr([
     "REQUIRE_SOURCE_QUANTITIES", "REQUIRE_TARGET_QUANTITIES"
 ])
 
