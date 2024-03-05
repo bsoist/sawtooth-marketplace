@@ -14,6 +14,9 @@
 # ------------------------------------------------------------------------------
 
 import rethinkdb as r
+r = r.RethinkDB()
+
+
 from rethinkdb.errors import ReqlNonExistenceError
 
 from api.errors import ApiBadRequest
